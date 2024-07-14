@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {ContactForm} from './ContactForm/ContactForm';
 import {ContactList} from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
 
 
 const initialContacts = [
@@ -12,6 +13,7 @@ const initialContacts = [
 
 export const App = () => {
   const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
 
   // Load contacts from local storage when the component mounts
   useEffect(() => {
@@ -32,23 +34,35 @@ export const App = () => {
     }
   }, [contacts]); 
 
-const addContact = newContact => {
+const addContact = useCallback((newContact) => {
   setContacts(prevContacts => [...prevContacts, newContact]);
-  };
+  }, []);
 
-const deleteContact = contactId => {
+const deleteContact = useCallback((contactId) => {
   setContacts(prevContacts => prevContacts.filter(contact => contact.id !== contactId));
-  };
+  }, []);
 
-console.log('render equivalent');
+const handleFilterChange = useCallback((filter) => {
+  setFilter(filter);
+}, []);
+
+const getFilteredContacts = useCallback(() => {
+  return contacts.filter(contact => 
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+}, [contacts, filter]);
+
+const filteredContacts = getFilteredContacts();
+
 return (
     <>
       <h1>Phonebook</h1>
       <ContactForm addContact={addContact} contacts={contacts} />
       
       <h2>Contacts</h2>
-        <ContactList 
-        contacts={contacts} 
+      <Filter filter={filter} onFilterChange={handleFilterChange} />
+      <ContactList 
+        contacts={filteredContacts} 
         onDeleteContact={deleteContact} 
         />
     </>
