@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addContact, deleteContact } from '../redux/contactsSlice';
 import { setFilter } from '../redux/filterSlice';
 import { getContacts, getFilter } from '../redux/selectors';
-import {ContactForm} from './ContactForm/ContactForm';
-import {ContactList} from './ContactList/ContactList';
+import { ContactForm } from './ContactForm/ContactForm';
+import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 
 
@@ -25,9 +25,14 @@ export const App = () => {
     dispatch(setFilter(newFilter));
   };
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  ); 
+  const filteredContacts = contacts.filter(contact => {
+      console.log('Chekcing contact:', contact);
+      if (typeof contact !== 'object' || typeof contact.name !== 'string') {
+        console.error('Invalid contact:', contact);
+        return false;
+      }
+      return contact.name.toLowerCase().includes(filter.toLowerCase());
+}); 
 
 return (
     <>
@@ -38,7 +43,7 @@ return (
       <Filter filter={filter} setFilter={handleSetFilter} />
       <ContactList 
         contacts={filteredContacts}
-        deleteContact={handleDeleteContact}
+        onDelete={handleDeleteContact}
       />
     </>
     );
