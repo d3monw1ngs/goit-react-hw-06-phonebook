@@ -1,70 +1,45 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact, deleteContact } from '../redux/contactsSlice';
+import { setFilter } from '../redux/filterSlice';
+import { getContacts, getFilter } from '../redux/selectors';
 import {ContactForm} from './ContactForm/ContactForm';
 import {ContactList} from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 
 
-const initialContacts = [
-      {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-      {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-      {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-      {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
-    ];
-
 export const App = () => {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+  const dispatch = useDispatch();
 
-  // Load contacts from local storage when the component mounts
-  useEffect(() => {
-    const savedContacts = localStorage.getItem('contacts');
-    console.log('Loaded contacts:', savedContacts);
-    if (savedContacts) {
-      setContacts(JSON.parse(savedContacts));
-    } else {
-      console.log('Setting inital contacts:', initialContacts);
-      setContacts(initialContacts);
-    }
-  }, []);
+  const handleAddContact = newContact => {
+    dispatch(addContact(newContact));
+  };
 
-  // Save contacts to local storage whenever the contacts state changes
-  useEffect(() => {
-    if (contacts.length > 0) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    }
-  }, [contacts]); 
+  const handleDeleteContact = id => {
+    dispatch(deleteContact(id));
+  };
 
-const addContact = useCallback((newContact) => {
-  setContacts(prevContacts => [...prevContacts, newContact]);
-  }, []);
+  const handleSetFilter = newFilter => {
+    dispatch(setFilter(newFilter));
+  };
 
-const deleteContact = useCallback((contactId) => {
-  setContacts(prevContacts => prevContacts.filter(contact => contact.id !== contactId));
-  }, []);
-
-const handleFilterChange = useCallback((filter) => {
-  setFilter(filter);
-}, []);
-
-const getFilteredContacts = useCallback(() => {
-  return contacts.filter(contact => 
+  const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
-}, [contacts, filter]);
-
-const filteredContacts = getFilteredContacts();
+  ); 
 
 return (
     <>
       <h1>Phonebook</h1>
-      <ContactForm addContact={addContact} contacts={contacts} />
+      <ContactForm addContact={handleAddContact} contacts={contacts} />
       
       <h2>Contacts</h2>
-      <Filter filter={filter} onFilterChange={handleFilterChange} />
+      <Filter filter={filter} setFilter={handleSetFilter} />
       <ContactList 
-        contacts={filteredContacts} 
-        onDeleteContact={deleteContact} 
-        />
+        contacts={filteredContacts}
+        deleteContact={handleDeleteContact}
+      />
     </>
     );
   };
