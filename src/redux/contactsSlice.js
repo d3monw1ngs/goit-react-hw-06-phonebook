@@ -11,6 +11,7 @@ const initialContactsState = [
 const validatedContacts = initialContactsState.map(contact => ({
   ...contact,
   name: String(contact.name),
+  number: String(contact.number),
 }));
 
 export const contactsSlice = createSlice({
