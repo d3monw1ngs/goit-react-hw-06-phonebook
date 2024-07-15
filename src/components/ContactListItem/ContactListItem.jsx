@@ -3,7 +3,7 @@ import css from './ContactListItem.module.css';
 import PropTypes from 'prop-types';
 
 
-export const ContactListItem = ({ contact, onDelete }) => {
+export const ContactListItem = ({ contact, onDeleteContact }) => {
     useEffect(() => {
         return () => {
             console.log('componentWillUnmount()');
@@ -16,7 +16,7 @@ export const ContactListItem = ({ contact, onDelete }) => {
          <span className={css.contactName}>{contact.name}</span>:{" "}
          <span className={css.contactNumber}>{contact.number}</span>     
      </div>
-     <button className={css.deleteBtn} onClick={onDelete}>
+     <button className={css.deleteBtn} onClick={onDeleteContact}>
        Delete
      </button>
    </li>
@@ -29,6 +29,6 @@ ContactListItem.propTypes = {
       name: PropTypes.string.isRequired,
       number: PropTypes.string.isRequired,
     }).isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onDeleteContact: PropTypes.func.isRequired,
   };
     

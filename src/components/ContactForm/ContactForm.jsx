@@ -27,15 +27,26 @@ const handleSubmit = e => {
   if (name.trim() === '' || number.trim() === '') {
     return;
   }
+
+  console.log('Contacts array:', contacts);
         
   // if it is an existing contact, alert
-const existingContact = contacts.find(
-  contact => contact.name.toLowerCase() === name.toLowerCase()
-);
+const existingContact = contacts.find(contact => {
+  console.log('Comparing contact name:', contact.name);
+  console.log('With new contact name:', name);
+
+  if (typeof contact.name === 'string' && typeof name === 'string') {
+    return contact.name.toLowerCase() === name.toLowerCase();
+  } else {
+    console.log('One of the names is not a string:', contact.name, name);
+    return false;
+  }
+});
 
 if (existingContact) {
   alert(`${name} is already in contacts!`);
-    return;
+} else {
+  alert(`${name} is successfully added to your contacts!`);
 }
 
 // Add Contacts
@@ -91,5 +102,5 @@ ContactForm.propTypes = {
       name: PropTypes.string.isRequired,
       number: PropTypes.string.isRequired,
     })
-  ),
+  ).isRequired,
 };

@@ -24,9 +24,12 @@ export const App = () => {
     dispatch(setFilter(newFilter));
   };
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filteredContacts = contacts.filter(contact => {
+    console.log('Contact:', contact);
+    console.log('Contact name:', contact.name)
+
+    return typeof contact.name === 'string' && contact.name.toLowerCase().includes(filter.toLowerCase())
+});
 
   return (
     <>
@@ -37,7 +40,7 @@ export const App = () => {
       <Filter filter={filter} setFilter={handleSetFilter} />
       <ContactList 
         contacts={filteredContacts} 
-        deleteContact={handleDeleteContact} />
+        onDeleteContact={handleDeleteContact} />
     </>
   );
 };

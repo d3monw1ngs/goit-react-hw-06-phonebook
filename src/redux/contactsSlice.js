@@ -8,9 +8,14 @@ const initialContactsState = [
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
+const validatedContacts = initialContactsState.map(contact => ({
+  ...contact,
+  name: String(contact.name),
+}));
+
 export const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: initialContactsState,
+  initialState: validatedContacts,
   reducers: {
     addContact: {
       reducer(state, action) {
