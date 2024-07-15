@@ -44,6 +44,7 @@ export const App = () => {
 
       <h2>Contacts</h2>
       <Filter filter={filter} setFilter={handleSetFilter} />
+      
       <ContactList 
         contacts={filteredContacts} 
         onDeleteContact={handleDeleteContact} />
