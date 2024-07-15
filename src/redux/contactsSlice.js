@@ -20,11 +20,8 @@ export const contactsSlice = createSlice({
         return { payload: { id: nanoid(), name, number } };
       },
     },
-    deleteContact(state, action) {
-      const index = state.findIndex(contact => contact.id === action.payload);
-      if (index !== -1) {
-        state.splice(index, 1);
-      }
+    deleteContact: (state, action) => {
+      return state.filter(contact => contact.id !== action.payload)
     },
   },
 });

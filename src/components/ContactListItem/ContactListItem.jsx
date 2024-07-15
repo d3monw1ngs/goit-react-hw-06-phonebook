@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import css from './ContactListItem.module.css';
 import PropTypes from 'prop-types';
 
-export const ContactListItem = ({ filteredContact, deleteContact }) => {
-     const handleDelete = () => {
-      deleteContact(filteredContact.id);
-      alert(`${filteredContact.name} was successfully deleted from your contacts!`);
-    };
+
+export const ContactListItem = ({ contact, onDelete }) => {
+    useEffect(() => {
+        return () => {
+            console.log('componentWillUnmount()');
+        };
+    }, []);
 
     return (
       <li className={css.contactItem}>
        <div className={css.contactDetails}>
-         <span className={css.contactName}>{filteredContact.name}</span>:{" "}
-         <span className={css.contactNumber}>{filteredContact.number}</span>     
+         <span className={css.contactName}>{contact.name}</span>:{" "}
+         <span className={css.contactNumber}>{contact.number}</span>     
      </div>
-     <button className={css.deleteBtn} onClick={handleDelete}>
+     <button className={css.deleteBtn} onClick={onDelete}>
        Delete
      </button>
    </li>
@@ -22,7 +24,11 @@ export const ContactListItem = ({ filteredContact, deleteContact }) => {
 };
     
 ContactListItem.propTypes = {
-    filteredContact: PropTypes.object.isRequired,
-    deleteContact: PropTypes.func.isRequired,
+    contact: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    }).isRequired,
+    onDelete: PropTypes.func.isRequired,
   };
     
