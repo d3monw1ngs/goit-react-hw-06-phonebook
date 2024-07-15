@@ -10,18 +10,20 @@ export const ContactForm = ({ addContact, contacts }) => {
   const handleNameChange = e => setName(e.target.value);
   const handleNumberChange = e => setNumber(e.target.value);
 
-const handleSubmit = e => {
-  e.preventDefault();        
-  if (name.trim() === '' || number.trim() === '') {
-    return;
-    } 
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (name.trim() === '' || number.trim() === '') {
+      return;
+    }
 
     const existingContact = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
+
     if (existingContact) {
-      alert(`${name} is already in contacts!`);
-      return;
+      alert(`${name} is already in your contacts!`);
+    } else {
+      alert(`${name} is successfully added to your contacts!`);
     }
 
     addContact({
@@ -33,11 +35,11 @@ const handleSubmit = e => {
     setName('');
     setNumber('');
   };
-        
-return (
-  <form className={css.form} onSubmit={handleSubmit}>
-    <label className={css.label}>
-      <p className={css.labelText}>Name</p>
+
+  return (
+    <form className={css.form} onSubmit={handleSubmit}>
+      <label className={css.label}>
+        <p className={css.labelText}>Name</p>
         <input
           className={css.input}
           type="text"
@@ -46,13 +48,12 @@ return (
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan."
           required
           value={name}
-          onChange={handleNameChange} 
-          placeholder="Name"
+          onChange={handleNameChange}
         />
-    </label>
+      </label>
 
-    <label className={css.label}>
-      <p className={css.labelText}>Number</p>
+      <label className={css.label}>
+        <p className={css.labelText}>Number</p>
         <input
           className={css.input}
           type="tel"
@@ -62,11 +63,13 @@ return (
           required
           value={number}
           onChange={handleNumberChange}
-          placeholder="Number"
         />
       </label>
-      <button className={css.button} type="submit">Add Contact</button>
-    </form>    
+
+      <button className={css.button} type="submit">
+        Add Contact
+      </button>
+    </form>
   );
 };
 
@@ -80,3 +83,4 @@ ContactForm.propTypes = {
     })
   ),
 };
+

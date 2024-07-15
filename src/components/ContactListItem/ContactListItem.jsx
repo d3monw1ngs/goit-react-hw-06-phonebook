@@ -2,17 +2,17 @@ import React from 'react';
 import css from './ContactListItem.module.css';
 import PropTypes from 'prop-types';
 
-
-export const ContactListItem = ({ contact, deleteContact }) => {
+export const ContactListItem = ({ filteredContact, deleteContact }) => {
      const handleDelete = () => {
-      deleteContact(contact.id);
+      deleteContact(filteredContact.id);
+      alert(`${filteredContact.name} was successfully deleted from your contacts!`);
     };
 
     return (
       <li className={css.contactItem}>
        <div className={css.contactDetails}>
-         <span className={css.contactName}>{contact.name}</span>:{" "}
-         <span className={css.contactNumber}>{contact.number}</span>     
+         <span className={css.contactName}>{filteredContact.name}</span>:{" "}
+         <span className={css.contactNumber}>{filteredContact.number}</span>     
      </div>
      <button className={css.deleteBtn} onClick={handleDelete}>
        Delete
@@ -22,11 +22,7 @@ export const ContactListItem = ({ contact, deleteContact }) => {
 };
     
 ContactListItem.propTypes = {
-    contact: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    }).isRequired,
-    onDelete: PropTypes.func.isRequired,
+    filteredContact: PropTypes.object.isRequired,
+    deleteContact: PropTypes.func.isRequired,
   };
     
