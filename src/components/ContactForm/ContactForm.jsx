@@ -7,6 +7,8 @@ export const ContactForm = ({ addContact, contacts }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
+  console.log('Contacts prop in ContactForm:', contacts);
+
 const resetForm = () => {
     setName('');
     setNumber('');

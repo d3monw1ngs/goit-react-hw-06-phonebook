@@ -1,22 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import css from './ContactListItem.module.css';
 import PropTypes from 'prop-types';
 
 
 export const ContactListItem = ({ contact, onDeleteContact }) => {
-    useEffect(() => {
-        return () => {
-            console.log('componentWillUnmount()');
-        };
-    }, []);
-
     return (
       <li className={css.contactItem}>
        <div className={css.contactDetails}>
          <span className={css.contactName}>{contact.name}</span>:{" "}
          <span className={css.contactNumber}>{contact.number}</span>     
      </div>
-     <button className={css.deleteBtn} onClick={onDeleteContact}>
+     <button className={css.deleteBtn} onClick={() => onDeleteContact(contact.id)}>
        Delete
      </button>
    </li>

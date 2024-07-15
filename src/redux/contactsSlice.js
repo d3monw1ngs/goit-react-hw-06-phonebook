@@ -9,7 +9,7 @@ const initialContactsState = [
 ];
 
 const validatedContacts = initialContactsState.map(contact => ({
-  ...contact,
+  id: contact.id,
   name: String(contact.name),
   number: String(contact.number),
 }));
@@ -23,7 +23,13 @@ export const contactsSlice = createSlice({
         state.push(action.payload);
       },
       prepare({ name, number }) {
-        return { payload: { id: nanoid(), name, number } };
+        return { 
+          payload: { 
+            id: nanoid(), 
+            name: String(name),
+            number: String(number),
+          },
+        };
       },
     },
     deleteContact: (state, action) => {

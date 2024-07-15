@@ -12,12 +12,18 @@ export const App = () => {
   const filter = useSelector(getFilter); 
   const dispatch = useDispatch();
 
-  const handleAddContact = newContact => {
-    dispatch(addContact(newContact));
+  const validatedContacts = contacts.map(contact => ({
+    id: contact.id,
+    name: String(contact.name),
+    number: String(contact.number),
+  }));
+
+  const handleAddContact = contact => {
+    dispatch(addContact(contact));
   };
 
-  const handleDeleteContact = id => {
-    dispatch(deleteContact(id));
+  const handleDeleteContact = (contactId) => {
+    dispatch(deleteContact(contactId));
   };
 
   const handleSetFilter = newFilter => {
@@ -34,7 +40,7 @@ export const App = () => {
   return (
     <>
       <h1>Phonebook</h1>
-      <ContactForm contacts={contacts} addContact={handleAddContact} />
+      <ContactForm contacts={validatedContacts} addContact={handleAddContact} />
 
       <h2>Contacts</h2>
       <Filter filter={filter} setFilter={handleSetFilter} />
